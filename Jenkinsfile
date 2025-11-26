@@ -2,17 +2,17 @@ pipeline {
     agent any
 
     environment {
-        PYTHON_VERSION = 'python'  // Use 'python' for Windows
+        PYTHON_VERSION = 'python' 
     }
 
     stages {
         stage('Build') {
             steps {
                 script {
-                    // Clean up the workspace
+                   
                     sh 'rm -rf *'
 
-                    // Create and activate the virtual environment
+                    
                     sh '''
                         python -m venv venv  # Create virtual environment
                         call venv\\Scripts\\activate.bat  # Correct way to activate virtualenv on Windows
@@ -25,7 +25,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    // Run the tests
+                  
                     sh '''
                         call venv\\Scripts\\activate.bat  # Activate virtual environment
                         pytest tests/  # Run tests (adjust path as needed)
@@ -37,7 +37,7 @@ pipeline {
 
     post {
         always {
-            // Clean up the environment after build
+            
             echo 'Cleaning up'
             sh '''
                 if exist venv\\Scripts\\activate.bat (
