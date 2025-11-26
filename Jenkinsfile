@@ -15,7 +15,7 @@ pipeline {
                     // Create and activate the virtual environment
                     sh '''
                         python -m venv venv  # Create virtual environment
-                        venv\\Scripts\\activate  # Correct way to activate virtualenv on Windows
+                        call venv\\Scripts\\activate.bat  # Correct way to activate virtualenv on Windows
                         pip install -r requirements.txt  # Install dependencies
                     '''
                 }
@@ -27,7 +27,7 @@ pipeline {
                 script {
                     // Run the tests
                     sh '''
-                        venv\\Scripts\\activate  # Activate virtual environment
+                        call venv\\Scripts\\activate.bat  # Activate virtual environment
                         pytest tests/  # Run tests (adjust path as needed)
                     '''
                 }
@@ -40,9 +40,9 @@ pipeline {
             // Clean up the environment after build
             echo 'Cleaning up'
             sh '''
-                if [ -f venv\\Scripts\\activate ]; then
-                    deactivate || echo "No virtual environment to deactivate."
-                fi
+                if exist venv\\Scripts\\activate.bat (
+                    call venv\\Scripts\\deactivate.bat || echo "No virtual environment to deactivate."
+                )
             '''
         }
 
